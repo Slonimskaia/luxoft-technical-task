@@ -1,0 +1,14 @@
+# IDE specific files
+
+.idea
+*.iml
+
+# Maven files
+
+/target
+.classpath
+.project
+.settings
+
+# Utility files
+src/main/resources/config.json
