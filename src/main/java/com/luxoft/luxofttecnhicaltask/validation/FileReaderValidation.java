@@ -1,4 +1,4 @@
-package com.luxoft.luxofttecnhicaltask;
+package com.luxoft.luxofttecnhicaltask.validation;
 
 
 import java.io.*;
