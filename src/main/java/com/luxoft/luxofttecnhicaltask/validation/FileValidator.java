@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.apache.logging.log4j.util.Strings.isBlank;
 
 public class FileValidator {
 
@@ -46,6 +47,14 @@ public class FileValidator {
              CSVReader csvReader = new CSVReader((reader))) {
             return csvReader.readAll().stream()
                     .noneMatch(line -> line.length != 4);
+        }
+    }
+
+    public boolean isFirstValueInLinesNotEmpty(String filePath) throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+             CSVReader csvReader = new CSVReader((reader))) {
+            return csvReader.readAll().stream()
+                    .noneMatch(line -> isBlank(line[0]));
         }
     }
 
