@@ -1,7 +1,9 @@
 package com.luxoft.luxofttecnhicaltask.service;
 
 import com.luxoft.luxofttecnhicaltask.storage.StorageProperties;
+import com.luxoft.luxofttecnhicaltask.storage.exception.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 
 import static org.springframework.util.StringUtils.cleanPath;
 
+@Service
 public class FileStorageServiceImpl implements FileStorageService {
 
     private final Path rootLocation;
@@ -30,6 +33,16 @@ public class FileStorageServiceImpl implements FileStorageService {
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new SecurityException("Failed to store file " + filename, e);
+        }
+    }
+
+    @Override
+    public void init() {
+        try {
+            Files.createDirectories(rootLocation);
+        }
+        catch (IOException e) {
+            throw new StorageException("Could not initialize storage", e);
         }
     }
 }
