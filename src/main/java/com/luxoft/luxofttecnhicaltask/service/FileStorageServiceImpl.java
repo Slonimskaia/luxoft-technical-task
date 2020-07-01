@@ -2,12 +2,16 @@ package com.luxoft.luxofttecnhicaltask.service;
 
 import com.luxoft.luxofttecnhicaltask.storage.StorageProperties;
 import com.luxoft.luxofttecnhicaltask.storage.exception.StorageException;
+import com.luxoft.luxofttecnhicaltask.storage.exception.StorageFileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,6 +50,30 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
         catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
+        }
+    }
+
+    @Override
+    public Path load(String filename) {
+        return rootLocation.resolve(filename);
+    }
+
+    @Override
+    public Resource loadAsResource(String filename) {
+        try {
+            Path file = load(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            }
+            else {
+                throw new StorageFileNotFoundException(
+                        "Could not read file: " + filename);
+
+            }
+        }
+        catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
 
