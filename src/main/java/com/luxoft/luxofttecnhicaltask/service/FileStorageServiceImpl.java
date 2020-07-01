@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.stream.Stream;
 
 import static org.springframework.util.StringUtils.cleanPath;
 
@@ -33,6 +34,18 @@ public class FileStorageServiceImpl implements FileStorageService {
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new SecurityException("Failed to store file " + filename, e);
+        }
+    }
+
+    @Override
+    public Stream<Path> loadAll() {
+        try {
+            return Files.walk(this.rootLocation, 1)
+                    .filter(path -> !path.equals(this.rootLocation))
+                    .map(this.rootLocation::relativize);
+        }
+        catch (IOException e) {
+            throw new StorageException("Failed to read stored files", e);
         }
     }
 
