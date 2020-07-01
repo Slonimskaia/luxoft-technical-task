@@ -41,6 +41,14 @@ public class FileValidator {
         }
     }
 
+    public boolean doesEachFileLineHasFourValues(String filePath) throws IOException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+             CSVReader csvReader = new CSVReader((reader))) {
+            return csvReader.readAll().stream()
+                    .noneMatch(line -> line.length != 4);
+        }
+    }
+
     private int getLastCharacterFromFile(Reader reader) throws IOException {
         int endOfTheStream = -1;
         int nextChar;
