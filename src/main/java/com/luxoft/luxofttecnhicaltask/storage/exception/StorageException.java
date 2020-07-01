@@ -2,11 +2,11 @@ package com.luxoft.luxofttecnhicaltask.storage.exception;
 
 public class StorageException extends RuntimeException {
 
-    StorageException(String message) {
+    public StorageException(String message) {
         super(message);
     }
 
-    StorageException(String message, Throwable cause) {
+    public StorageException(String message, Throwable cause) {
         super(message, cause);
     }
 }
