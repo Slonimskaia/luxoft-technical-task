@@ -1,7 +1,6 @@
 package com.luxoft.luxofttecnhicaltask.validation;
 
 
-import com.luxoft.luxofttecnhicaltask.Column;
 import com.opencsv.CSVReader;
 
 import java.io.*;
