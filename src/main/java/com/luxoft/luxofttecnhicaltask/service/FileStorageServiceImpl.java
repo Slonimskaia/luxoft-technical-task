@@ -3,15 +3,16 @@ package com.luxoft.luxofttecnhicaltask.service;
 import com.luxoft.luxofttecnhicaltask.storage.StorageProperties;
 import com.luxoft.luxofttecnhicaltask.storage.exception.StorageException;
 import com.luxoft.luxofttecnhicaltask.storage.exception.StorageFileNotFoundException;
+import com.luxoft.luxofttecnhicaltask.validation.FileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,18 +25,25 @@ import static org.springframework.util.StringUtils.cleanPath;
 public class FileStorageServiceImpl implements FileStorageService {
 
     private final Path rootLocation;
+    private FileValidator validator;
 
     @Autowired
     public FileStorageServiceImpl(StorageProperties properties) {
         this.rootLocation = Paths.get(properties.getFilesStorage());
+        validator = new FileValidator();
     }
 
     @Override
     public void store(MultipartFile file) {
         String filename = cleanPath(file.getOriginalFilename());
-        try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, this.rootLocation.resolve(filename),
-                    StandardCopyOption.REPLACE_EXISTING);
+        try {
+            if (!isFileValid(file)) {
+                throw new IOException();
+            }
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, this.rootLocation.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             throw new SecurityException("Failed to store file " + filename, e);
         }
@@ -85,5 +93,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
+    }
+
+    private boolean isFileValid(MultipartFile file) throws IOException {
+        return validator.lastLineIsEmpty(file, Charset.defaultCharset()) &&
+                validator.documentHasValidLines(file, Charset.defaultCharset()) &&
+                validator.fileHasValidHeader(file, Charset.defaultCharset());
     }
 }
