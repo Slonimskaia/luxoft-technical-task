@@ -2,11 +2,10 @@ package com.luxoft.luxofttecnhicaltask.validation;
 
 
 import com.opencsv.CSVReader;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -14,8 +13,8 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 public class FileValidator {
 
-    public boolean lastLineIsEmpty(File file, Charset encoding) throws IOException {
-        try (InputStream in = new FileInputStream(file);
+    public boolean lastLineIsEmpty(MultipartFile file, Charset encoding) throws IOException {
+        try (InputStream in = file.getInputStream();
              Reader reader = new InputStreamReader(in, encoding);
              Reader buffer = new BufferedReader(reader)) {
 
@@ -24,8 +23,9 @@ public class FileValidator {
         }
     }
 
-    public boolean documentHasValidLines(String filePath) throws IOException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+    public boolean documentHasValidLines(MultipartFile file, Charset encoding) throws IOException {
+        try (InputStream in = file.getInputStream();
+             Reader reader = new InputStreamReader(in, encoding);
              CSVReader csvReader = new CSVReader((reader))) {
 
             return csvReader.readAll().stream()
@@ -33,9 +33,10 @@ public class FileValidator {
         }
     }
 
-    public boolean fileHasValidHeader(String filePath) throws IOException {
+    public boolean fileHasValidHeader(MultipartFile file, Charset encoding) throws IOException {
         int firstLineInFile = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+        try (InputStream in = file.getInputStream();
+             Reader reader = new InputStreamReader(in, encoding);
              CSVReader csvReader = new CSVReader((reader))) {
 
             String[] firstLine = csvReader.readAll().get(firstLineInFile);
