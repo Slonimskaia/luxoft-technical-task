@@ -14,11 +14,13 @@ public class CsvFile {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "ID")
-    private Integer id;
+    private int id;
 
     @Column(name = "FILE_NAME")
     private String fileName;
 
+    public CsvFile() {
+    }
 
     public CsvFile(String fileName) {
         this.fileName = fileName;

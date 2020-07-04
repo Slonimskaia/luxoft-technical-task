@@ -3,7 +3,6 @@ package com.luxoft.luxofttecnhicaltask.service;
 import com.luxoft.luxofttecnhicaltask.model.CsvFile;
 import com.luxoft.luxofttecnhicaltask.model.Item;
 import com.luxoft.luxofttecnhicaltask.storage.StorageProperties;
-import com.luxoft.luxofttecnhicaltask.storage.exception.StorageException;
 import com.luxoft.luxofttecnhicaltask.storage.exception.StorageFileNotFoundException;
 import com.luxoft.luxofttecnhicaltask.validation.FileValidator;
 import com.opencsv.CSVReader;
@@ -16,11 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static com.luxoft.luxofttecnhicaltask.validation.Column.*;
 import static org.springframework.util.StringUtils.cleanPath;
@@ -65,15 +62,8 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
-        }
+    public List<String> loadAll() {
+        return fileService.getAllNames();
     }
 
     @Override
