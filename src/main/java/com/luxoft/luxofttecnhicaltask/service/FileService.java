@@ -1,8 +1,8 @@
 package com.luxoft.luxofttecnhicaltask.service;
 
-import com.luxoft.luxofttecnhicaltask.model.File;
+import com.luxoft.luxofttecnhicaltask.model.CsvFile;
 
 public interface FileService {
 
-    void add(File file);
+    void add(CsvFile csvFile);
 }

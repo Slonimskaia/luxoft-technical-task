@@ -2,7 +2,9 @@ package com.luxoft.luxofttecnhicaltask.service;
 
 import com.luxoft.luxofttecnhicaltask.dao.ItemRepository;
 import com.luxoft.luxofttecnhicaltask.model.Item;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository repository;

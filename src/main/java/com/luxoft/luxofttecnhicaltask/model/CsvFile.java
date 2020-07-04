@@ -7,9 +7,9 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
-@Table(name="FILES")
+@Table(name="CSV_FILES")
 @Entity
-public class File {
+public class CsvFile {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -18,4 +18,9 @@ public class File {
 
     @Column(name = "FILE_NAME")
     private String fileName;
+
+
+    public CsvFile(String fileName) {
+        this.fileName = fileName;
+    }
 }

@@ -19,7 +19,7 @@ public class Item {
 
     @OneToOne(cascade = ALL)
     @JoinColumn(name = "FILE_ID")
-    private File fileId;
+    private CsvFile csvFileId;
 
     @Column(name = "PRIMARY_KEY")
     private String primaryKey;

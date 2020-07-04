@@ -14,8 +14,8 @@ import static org.apache.logging.log4j.util.Strings.isNotBlank;
 public class FileValidator {
 
     public boolean lastLineIsEmpty(MultipartFile file, Charset encoding) throws IOException {
-        try (InputStream in = file.getInputStream();
-             Reader reader = new InputStreamReader(in, encoding);
+        try (InputStream inputStream = file.getInputStream();
+             Reader reader = new InputStreamReader(inputStream, encoding);
              Reader buffer = new BufferedReader(reader)) {
 
             int intRepresentationOfNewLine = (int) ('\n');
@@ -24,8 +24,8 @@ public class FileValidator {
     }
 
     public boolean documentHasValidLines(MultipartFile file, Charset encoding) throws IOException {
-        try (InputStream in = file.getInputStream();
-             Reader reader = new InputStreamReader(in, encoding);
+        try (InputStream inputStream = file.getInputStream();
+             Reader reader = new InputStreamReader(inputStream, encoding);
              CSVReader csvReader = new CSVReader((reader))) {
 
             return csvReader.readAll().stream()
@@ -35,8 +35,8 @@ public class FileValidator {
 
     public boolean fileHasValidHeader(MultipartFile file, Charset encoding) throws IOException {
         int firstLineInFile = 0;
-        try (InputStream in = file.getInputStream();
-             Reader reader = new InputStreamReader(in, encoding);
+        try (InputStream inputStream = file.getInputStream();
+             Reader reader = new InputStreamReader(inputStream, encoding);
              CSVReader csvReader = new CSVReader((reader))) {
 
             String[] firstLine = csvReader.readAll().get(firstLineInFile);
