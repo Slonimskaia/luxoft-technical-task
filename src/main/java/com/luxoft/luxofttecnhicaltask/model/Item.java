@@ -2,27 +2,34 @@ package com.luxoft.luxofttecnhicaltask.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Table(name="ITEMS")
 @Entity
 public class Item {
 
-    @Column(name="FILE_NAME")
-    private String fileName;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "ID")
+    private Integer id;
 
-    @Column(name="PRIMARY_KEY")
+    @OneToOne(cascade = ALL)
+    @JoinColumn(name = "FILE_ID")
+    private File file;
+
+    @Column(name = "PRIMARY_KEY")
     private String primaryKey;
 
-    @Column(name="NAME")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name="DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name="UPDATED_TIMESTAMP")
+    @Column(name = "UPDATED_TIMESTAMP")
     private String updatedTimestamp;
 }
