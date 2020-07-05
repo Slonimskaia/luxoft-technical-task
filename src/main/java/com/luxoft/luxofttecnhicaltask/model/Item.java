@@ -8,7 +8,7 @@ import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
-@Table(name="ITEMS")
+@Table(name = "ITEMS")
 @Entity
 public class Item {
 

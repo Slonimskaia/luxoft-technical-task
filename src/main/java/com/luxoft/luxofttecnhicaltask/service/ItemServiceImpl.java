@@ -4,6 +4,8 @@ import com.luxoft.luxofttecnhicaltask.dao.ItemRepository;
 import com.luxoft.luxofttecnhicaltask.model.Item;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ItemServiceImpl implements ItemService {
 
@@ -21,5 +23,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void delete(Item item) {
         repository.delete(item);
+    }
+
+    public List<Item> getAllFileItems(String fileName) {
+        return repository.getFileItems(fileName);
     }
 }
