@@ -92,8 +92,12 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public List<Item> getCsvFile(String fileName) {
-        List<Item> items = itemService.getAllFileItems(fileName);
-        return items;
+        return itemService.getAllFileItems(fileName);
+    }
+
+    @Override
+    public Item getByPrimaryKey(String primaryKey, String fileName) {
+        return itemService.getByPrimaryKey(primaryKey, fileName);
     }
 
     private boolean isFileValid(MultipartFile file) throws IOException {

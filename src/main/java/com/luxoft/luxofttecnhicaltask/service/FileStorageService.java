@@ -18,4 +18,6 @@ public interface FileStorageService {
     Resource loadAsResource(String filename);
 
     List<Item> getCsvFile(String fileName);
+
+    Item getByPrimaryKey(String primaryKey, String fileName);
 }

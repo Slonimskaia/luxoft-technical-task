@@ -25,7 +25,13 @@ public class ItemServiceImpl implements ItemService {
         repository.delete(item);
     }
 
+    @Override
     public List<Item> getAllFileItems(String fileName) {
         return repository.getFileItems(fileName);
+    }
+
+    @Override
+    public Item getByPrimaryKey(String primaryKey, String fileName){
+        return repository.getByPrimaryKey(primaryKey, fileName);
     }
 }

@@ -11,4 +11,6 @@ public interface ItemService {
     void delete(Item item);
 
     List<Item> getAllFileItems(String fileName);
+
+    Item getByPrimaryKey(String primaryKey, String fileName);
 }
