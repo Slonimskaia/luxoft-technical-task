@@ -1,5 +1,6 @@
 package com.luxoft.luxofttecnhicaltask.service;
 
+import com.luxoft.luxofttecnhicaltask.model.Item;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,9 +11,11 @@ public interface FileStorageService {
 
     void store(MultipartFile file);
 
-    List<String> loadAll();
+    List<String> getAllFilesNames();
 
     Path load(String filename);
 
     Resource loadAsResource(String filename);
+
+    List<Item> getCsvFile(String fileName);
 }

@@ -62,7 +62,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public List<String> loadAll() {
+    public List<String> getAllFilesNames() {
         return fileService.getAllNames();
     }
 
@@ -72,22 +72,28 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String fileName) {
         try {
-            Path file = load(filename);
+            Path file = load(fileName);
             Resource resource = new UrlResource(file.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             }
             else {
                 throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
+                        "Could not read file: " + fileName);
 
             }
         }
         catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("Could not read file: " + fileName, e);
         }
+    }
+
+    @Override
+    public List<Item> getCsvFile(String fileName) {
+        List<Item> items = itemService.getAllFileItems(fileName);
+        return items;
     }
 
     private boolean isFileValid(MultipartFile file) throws IOException {
