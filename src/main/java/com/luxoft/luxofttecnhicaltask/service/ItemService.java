@@ -8,9 +8,9 @@ public interface ItemService {
 
     void add(Item item);
 
-    void delete(Item item);
-
     List<Item> getAllFileItems(String fileName);
 
     Item getByPrimaryKey(String primaryKey, String fileName);
+
+    void deleteByPrimaryKey(String primaryKey, String fileName);
 }

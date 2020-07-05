@@ -20,4 +20,6 @@ public interface FileStorageService {
     List<Item> getCsvFile(String fileName);
 
     Item getByPrimaryKey(String primaryKey, String fileName);
+
+    void deleteByPrimaryKey(String primaryKey, String fileName);
 }

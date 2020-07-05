@@ -100,6 +100,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         return itemService.getByPrimaryKey(primaryKey, fileName);
     }
 
+    @Override
+    public void deleteByPrimaryKey(String primaryKey, String fileName) {
+        itemService.deleteByPrimaryKey(primaryKey, fileName);
+    }
+
     private boolean isFileValid(MultipartFile file) throws IOException {
         return validator.lastLineIsEmpty(file, Charset.defaultCharset()) &&
                 validator.documentHasValidLines(file, Charset.defaultCharset()) &&

@@ -21,11 +21,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void delete(Item item) {
-        repository.delete(item);
-    }
-
-    @Override
     public List<Item> getAllFileItems(String fileName) {
         return repository.getFileItems(fileName);
     }
@@ -33,5 +28,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getByPrimaryKey(String primaryKey, String fileName){
         return repository.getByPrimaryKey(primaryKey, fileName);
+    }
+
+    @Override
+    public void deleteByPrimaryKey(String primaryKey, String fileName){
+        repository.deleteByPrimaryKey(primaryKey, fileName);
     }
 }
