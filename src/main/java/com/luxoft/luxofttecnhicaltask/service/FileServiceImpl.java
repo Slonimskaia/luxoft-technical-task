@@ -5,7 +5,6 @@ import com.luxoft.luxofttecnhicaltask.model.CsvFile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -21,11 +20,6 @@ public class FileServiceImpl implements FileService {
     @Override
     public void add(CsvFile csvFile) {
         repository.save(csvFile);
-    }
-
-    @Override
-    public Optional<CsvFile> get(String name) {
-        return getAll().stream().filter(i -> i.getFileName().equals(name)).findFirst();
     }
 
     @Override

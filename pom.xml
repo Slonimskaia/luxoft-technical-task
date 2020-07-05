@@ -14,7 +14,7 @@
     <groupId>com.luxoft</groupId>
     <artifactId>luxoft-technical-task</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <description>Application for file uploading</description>
+    <description>Application for CSVFile uploading</description>
 
     <properties>
         <java.version>1.8</java.version>
