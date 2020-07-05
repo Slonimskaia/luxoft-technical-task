@@ -41,4 +41,13 @@ public class FileController {
         model.addAttribute("items", storageService.getCsvFile(fileName));
         return "fileContent";
     }
+
+    @GetMapping("/files/{fileName}/{primaryKey}")
+    public String getItemByPrimaryKey(@RequestParam("primary_key") String primaryKey, @PathVariable String fileName, Model model) {
+
+        model.addAttribute("item", storageService.getByPrimaryKey(primaryKey, fileName));
+        model.addAttribute("items", storageService.getCsvFile(fileName));
+        model.addAttribute("fileName", fileName);
+        return "fileContent";
+    }
 }

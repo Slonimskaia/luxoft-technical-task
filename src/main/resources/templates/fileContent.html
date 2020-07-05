@@ -2,10 +2,36 @@
 <body>
 
 <div>
+    <form method="GET" enctype="multipart/form-data"
+          th:action="@{/user/files/__${fileName}__/primary_key}">
+        Search by primary key: <input type="text" name="primary_key" />
+        <button>Search</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>PRIMARY KEY</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>UPDATED TIMESTAMP</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="obj : ${item}">
+                <td th:text="${item.primaryKey}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.description}"></td>
+                <td th:text="${item.updatedTimestamp}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
     <table>
         <thead>
             <tr>
-                <th><>PRIMARY KEY</th>
+                <th>PRIMARY KEY</th>
                 <th>NAME</th>
                 <th>DESCRIPTION</th>
                 <th>UPDATED TIMESTAMP</th>
