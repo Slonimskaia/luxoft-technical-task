@@ -1,0 +1,26 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th><>PRIMARY KEY</th>
+                <th>NAME</th>
+                <th>DESCRIPTION</th>
+                <th>UPDATED TIMESTAMP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.primaryKey}"></td>
+                <td th:text="${item.name}"></td>
+                <td th:text="${item.description}"></td>
+                <td th:text="${item.updatedTimestamp}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
