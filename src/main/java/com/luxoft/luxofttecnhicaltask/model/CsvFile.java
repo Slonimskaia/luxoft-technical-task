@@ -16,13 +16,13 @@ public class CsvFile {
     @Column(name = "ID")
     private int id;
 
-    @Column(name = "FILE_NAME")
-    private String fileName;
+    @Column(name = "NAME")
+    private String name;
 
     public CsvFile() {
     }
 
     public CsvFile(String fileName) {
-        this.fileName = fileName;
+        this.name = fileName;
     }
 }

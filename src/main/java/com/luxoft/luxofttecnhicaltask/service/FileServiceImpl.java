@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public List<String> getAllNames() {
-        return getAll().stream().map(CsvFile::getFileName).collect(toList());
+        return getAll().stream().map(CsvFile::getName).collect(toList());
     }
 
     private List<CsvFile> getAll() {
