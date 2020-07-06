@@ -46,6 +46,9 @@
             </tbody>
         </table>
     </div>
+    <div th:if="${itemNotFound}" >
+        <p th:text="@{'Item with given ' + ${itemNotFound} + ' primary key value has not found.'}"></p>
+    </div>
 </div>
 
 <div>
