@@ -2,6 +2,7 @@ package com.luxoft.luxofttecnhicaltask.validation;
 
 
 import com.opencsv.CSVReader;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -12,6 +13,11 @@ import static java.lang.Boolean.TRUE;
 import static org.apache.logging.log4j.util.Strings.isNotBlank;
 
 public class FileValidator {
+
+    public boolean isCsv(MultipartFile file) throws IOException {
+        String content = new String(file.getBytes());
+        return content.contains(",");
+    }
 
     public boolean lastLineIsEmpty(MultipartFile file, Charset encoding) throws IOException {
         try (InputStream inputStream = file.getInputStream();

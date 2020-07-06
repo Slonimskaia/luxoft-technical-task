@@ -1,31 +1,24 @@
 package com.luxoft.luxofttecnhicaltask.service;
 
+import com.luxoft.luxofttecnhicaltask.exception.InvalidFileFormatException;
 import com.luxoft.luxofttecnhicaltask.model.CsvFile;
 import com.luxoft.luxofttecnhicaltask.model.Item;
-import com.luxoft.luxofttecnhicaltask.storage.StorageProperties;
-import com.luxoft.luxofttecnhicaltask.storage.exception.StorageFileNotFoundException;
 import com.luxoft.luxofttecnhicaltask.validation.FileValidator;
 import com.opencsv.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import static com.luxoft.luxofttecnhicaltask.validation.Column.*;
+import static java.nio.charset.Charset.defaultCharset;
 import static org.springframework.util.StringUtils.cleanPath;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    private final Path rootLocation;
     private FileValidator validator;
 
     @Autowired
@@ -35,8 +28,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private ItemService itemService;
 
     @Autowired
-    public FileStorageServiceImpl(StorageProperties properties) {
-        this.rootLocation = Paths.get(properties.getFilesStorage());
+    public FileStorageServiceImpl() {
         validator = new FileValidator();
     }
 
@@ -44,11 +36,9 @@ public class FileStorageServiceImpl implements FileStorageService {
     public void store(MultipartFile file) {
         String filename = cleanPath(file.getOriginalFilename());
         try {
-            if (!isFileValid(file)) {
-                throw new IOException();
-            }
+            isFileValid(file);
             try (InputStream inputStream = file.getInputStream();
-                 Reader reader = new InputStreamReader(inputStream, Charset.defaultCharset());
+                 Reader reader = new InputStreamReader(inputStream, defaultCharset());
                  CSVReader csvReader = new CSVReader((reader))) {
                 CsvFile csvFile = new CsvFile(filename);
                 fileService.add(csvFile);
@@ -58,36 +48,14 @@ public class FileStorageServiceImpl implements FileStorageService {
             }
         } catch (IOException e) {
             throw new SecurityException("Failed to store file " + filename, e);
+        } catch (InvalidFileFormatException e) {
+            throw new SecurityException("Failed to store file. It should be a text file. " + e.getMessage(), e);
         }
     }
 
     @Override
     public List<String> getAllFilesNames() {
         return fileService.getAllNames();
-    }
-
-    @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
-
-    @Override
-    public Resource loadAsResource(String fileName) {
-        try {
-            Path file = load(fileName);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            }
-            else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + fileName);
-
-            }
-        }
-        catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + fileName, e);
-        }
     }
 
     @Override
@@ -105,10 +73,16 @@ public class FileStorageServiceImpl implements FileStorageService {
         itemService.deleteByPrimaryKey(primaryKey, fileName);
     }
 
-    private boolean isFileValid(MultipartFile file) throws IOException {
-        return validator.lastLineIsEmpty(file, Charset.defaultCharset()) &&
-                validator.documentHasValidLines(file, Charset.defaultCharset()) &&
-                validator.fileHasValidHeader(file, Charset.defaultCharset());
+    private void isFileValid(MultipartFile file) throws IOException {
+        if(!validator.isCsv(file)) {
+            throw new InvalidFileFormatException("and should contain comma-separated data.");
+        } else if (!validator.documentHasValidLines(file, defaultCharset())) {
+            throw new InvalidFileFormatException("Each line in file should have four columns and also first line column should not be empty.");
+        } else if (!validator.lastLineIsEmpty(file, defaultCharset())) {
+            throw new InvalidFileFormatException("File last line should be empty.");
+        }  else if (!validator.fileHasValidHeader(file, defaultCharset())) {
+            throw new InvalidFileFormatException("File should have header: PRIMARY_KEY, NAME, DESCRIPTION, UPDATED_TIMESTAMP.");
+        }
     }
 
     private Item getItem(String[] itemField, CsvFile csvFile){
