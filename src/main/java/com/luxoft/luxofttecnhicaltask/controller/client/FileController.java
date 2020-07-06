@@ -50,4 +50,11 @@ public class FileController {
         model.addAttribute("fileName", fileName);
         return "fileContent";
     }
+
+    @ExceptionHandler(SecurityException.class)
+    public String handleStorageFileNotFound(SecurityException exception, Model model) {
+
+        model.addAttribute("exception", exception);
+        return "exception";
+    }
 }

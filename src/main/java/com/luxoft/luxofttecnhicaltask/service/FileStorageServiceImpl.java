@@ -49,7 +49,7 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (IOException e) {
             throw new SecurityException("Failed to store file " + filename, e);
         } catch (InvalidFileFormatException e) {
-            throw new SecurityException("Failed to store file. It should be a text file. " + e.getMessage(), e);
+            throw new SecurityException("Failed to store file " + filename + ". It should be a text file. " + e.getMessage(), e);
         }
     }
 
