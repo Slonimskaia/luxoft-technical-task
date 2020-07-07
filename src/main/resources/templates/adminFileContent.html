@@ -1,0 +1,45 @@
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      border-style: solid;
+      margin: 10px 0px 30px 0px;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    </style>
+</head>
+
+<body>
+
+<div>
+    <p th:text="@{'Content of a file ' + ${fileName} + ':'}"></p>
+    <table>
+        <thead>
+        <tr>
+            <th>PRIMARY KEY</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+            <th>UPDATED TIMESTAMP</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.primaryKey}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.description}"></td>
+            <td th:text="${item.updatedTimestamp}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
