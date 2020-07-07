@@ -2,6 +2,7 @@
 <body>
 
 <div>
+    <p>Uploaded files:</p>
     <ul>
         <li th:each="file : ${files}">
             <a th:href="@{'/admin/files/' + ${file}}" th:text="${file}" />
