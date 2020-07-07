@@ -13,12 +13,12 @@ import static java.util.Objects.isNull;
 
 @Controller
 @RequestMapping(value = "/user")
-public class FileController {
+public class UserFileController {
 
     private final FileStorageService storageService;
 
     @Autowired
-    public FileController(FileStorageService storageService) {
+    public UserFileController(FileStorageService storageService) {
         this.storageService = storageService;
     }
 
@@ -26,7 +26,7 @@ public class FileController {
     public String listUploadedFiles(Model model) {
 
         model.addAttribute("files", storageService.getAllFilesNames());
-        return "userUploadingFileForm";
+        return "uploadingFileForm";
     }
 
     @PostMapping
@@ -42,7 +42,7 @@ public class FileController {
     public String getFileContent(@PathVariable String fileName, Model model) {
 
         model.addAttribute("items", storageService.getCsvFile(fileName));
-        return "fileContent";
+        return "userFileContent";
     }
 
     @GetMapping("/files/{fileName}/{primaryKey}")
@@ -56,7 +56,7 @@ public class FileController {
         }
         model.addAttribute("items", storageService.getCsvFile(fileName));
         model.addAttribute("fileName", fileName);
-        return "fileContent";
+        return "userFileContent";
     }
 
     @ExceptionHandler(SecurityException.class)
