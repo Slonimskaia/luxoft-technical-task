@@ -15,5 +15,5 @@ public interface FileStorageService {
 
     Item getByPrimaryKey(String primaryKey, String fileName);
 
-    void deleteByPrimaryKey(String primaryKey, String fileName);
+    void delete(int id);
 }

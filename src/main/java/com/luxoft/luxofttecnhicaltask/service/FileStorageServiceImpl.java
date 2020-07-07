@@ -69,8 +69,10 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public void deleteByPrimaryKey(String primaryKey, String fileName) {
-        itemService.deleteByPrimaryKey(primaryKey, fileName);
+    public void delete(int id) {
+        Item item = new Item();
+        item.setId(id);
+        itemService.delete(item);
     }
 
     private void isFileValid(MultipartFile file) throws IOException {

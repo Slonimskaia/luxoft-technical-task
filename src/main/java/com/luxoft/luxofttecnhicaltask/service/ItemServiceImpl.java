@@ -31,7 +31,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void deleteByPrimaryKey(String primaryKey, String fileName){
-        repository.deleteByPrimaryKey(primaryKey, fileName);
+    public void delete(Item item){
+        repository.delete(item);
     }
 }

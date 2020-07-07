@@ -20,6 +20,20 @@
 <body>
 
 <div>
+    <form method="GET" enctype="multipart/form-data"
+          th:action="@{/admin/files/__${fileName}__/primary_key}">
+        Delete by primary key: <input th:type="text" th:name="primary_key" />
+        <button>Delete</button>
+        <div th:if="${primaryKey}" >
+            <p th:text="@{'Item with primary key value ' + ${primaryKey} + ' was deleted.'}"></p>
+        </div>
+    </form>
+    <div th:if="${itemNotFound}" >
+        <p th:text="@{'Item with given ' + ${itemNotFound} + ' primary key value has not found.'}"></p>
+    </div>
+</div>
+
+<div>
     <p th:text="@{'Content of a file ' + ${fileName} + ':'}"></p>
     <table>
         <thead>
