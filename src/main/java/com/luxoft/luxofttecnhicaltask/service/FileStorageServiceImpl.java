@@ -50,6 +50,8 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw new SecurityException("Failed to store file " + filename, e);
         } catch (InvalidFileFormatException e) {
             throw new SecurityException("Failed to store file " + filename + ". It should be a text file. " + e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            throw new SecurityException(e.getMessage(), e);
         }
     }
 
@@ -76,13 +78,15 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     private void isFileValid(MultipartFile file) throws IOException {
-        if(!validator.isCsv(file)) {
+        if (fileService.isFileNameUnique(file.getOriginalFilename())) {
+            throw new IllegalArgumentException("File with given name has already exist.");
+        } else if(!validator.isCsv(file)) {
             throw new InvalidFileFormatException("and should contain comma-separated data.");
         } else if (!validator.documentHasValidLines(file, defaultCharset())) {
             throw new InvalidFileFormatException("Each line in file should have four columns and also first line column should not be empty.");
         } else if (!validator.lastLineIsEmpty(file, defaultCharset())) {
             throw new InvalidFileFormatException("File last line should be empty.");
-        }  else if (!validator.fileHasValidHeader(file, defaultCharset())) {
+        } else if (!validator.fileHasValidHeader(file, defaultCharset())) {
             throw new InvalidFileFormatException("File should have header: PRIMARY_KEY, NAME, DESCRIPTION, UPDATED_TIMESTAMP.");
         }
     }

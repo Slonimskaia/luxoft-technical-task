@@ -9,4 +9,6 @@ public interface FileService {
     void add(CsvFile csvFile);
 
     List<String> getAllNames();
+
+    boolean isFileNameUnique(String fileName);
 }

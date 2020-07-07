@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -31,5 +32,8 @@ public class FileServiceImpl implements FileService {
         return (List<CsvFile>) repository.findAll();
     }
 
-
+    @Override
+    public boolean isFileNameUnique(String fileName) {
+        return nonNull(repository.isFileNameUnique(fileName));
+    }
 }
