@@ -18,11 +18,4 @@ public class CsvFile {
 
     @Column(name = "NAME")
     private String name;
-
-    public CsvFile() {
-    }
-
-    public CsvFile(String fileName) {
-        this.name = fileName;
-    }
 }

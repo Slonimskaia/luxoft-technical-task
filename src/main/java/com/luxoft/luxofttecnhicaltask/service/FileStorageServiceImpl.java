@@ -34,22 +34,19 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public void store(MultipartFile file) {
-        String filename = cleanPath(file.getOriginalFilename());
+        String fileName = cleanPath(file.getOriginalFilename());
         try {
             isFileValid(file);
             try (InputStream inputStream = file.getInputStream();
                  Reader reader = new InputStreamReader(inputStream, defaultCharset());
                  CSVReader csvReader = new CSVReader((reader))) {
-                CsvFile csvFile = new CsvFile(filename);
-                fileService.add(csvFile);
-                List<String[]> allLines = csvReader.readAll();
-                int firstFileRow = 1;
-                allLines.subList(firstFileRow, allLines.size()).forEach(i -> itemService.add(getItem(i, csvFile)));
+
+                storeFileItems(csvReader, fileName);
             }
         } catch (IOException e) {
-            throw new SecurityException("Failed to store file " + filename, e);
+            throw new SecurityException("Failed to store file " + fileName, e);
         } catch (InvalidFileFormatException e) {
-            throw new SecurityException("Failed to store file " + filename + ". It should be a text file. " + e.getMessage(), e);
+            throw new SecurityException("Failed to store file " + fileName + ". It should be a text file. " + e.getMessage(), e);
         } catch (IllegalArgumentException e) {
             throw new SecurityException(e.getMessage(), e);
         }
@@ -99,5 +96,19 @@ public class FileStorageServiceImpl implements FileStorageService {
         item.setDescription(itemField[DESCRIPTION.getColumn()]);
         item.setUpdatedTimestamp(itemField[UPDATED_TIMESTAMP.getColumn()]);
         return item;
+    }
+
+    private void storeFileItems(CSVReader csvReader, String fileName) throws IOException {
+        List<String[]> allLines = csvReader.readAll();
+        int firstFileRow = 1;
+        CsvFile csvFile = storeFile(fileName);
+        allLines.subList(firstFileRow, allLines.size()).forEach(i -> itemService.add(getItem(i, csvFile)));
+    }
+
+    private CsvFile storeFile(String fileName) {
+        CsvFile csvFile = new CsvFile();
+        csvFile.setName(fileName);
+        fileService.add(csvFile);
+        return csvFile;
     }
 }
