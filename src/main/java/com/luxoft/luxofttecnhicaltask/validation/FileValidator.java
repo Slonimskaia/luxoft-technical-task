@@ -23,18 +23,18 @@ public class FileValidator {
              Reader reader = new InputStreamReader(inputStream, encoding);
              Reader buffer = new BufferedReader(reader)) {
 
-            int intRepresentationOfNewLine = (int) ('\n');
+            int intRepresentationOfNewLine = ('\n');
             return getLastCharacterFromFile(buffer) == intRepresentationOfNewLine;
         }
     }
 
-    public boolean documentHasValidLines(MultipartFile file, Charset encoding) throws IOException {
+    public boolean fileHasValidLines(MultipartFile file, Charset encoding) throws IOException {
         try (InputStream inputStream = file.getInputStream();
              Reader reader = new InputStreamReader(inputStream, encoding);
              CSVReader csvReader = new CSVReader((reader))) {
 
             return csvReader.readAll().stream()
-                    .allMatch(line -> hasFourValues(line) && firstValueIsNotEmpty(line));
+                    .allMatch(line -> hasFourValues(line) && primaryKeyIsNotEmpty(line));
         }
     }
 
@@ -67,7 +67,7 @@ public class FileValidator {
         return lineValues.length == numberOfValues;
     }
 
-    private boolean firstValueIsNotEmpty(String[] lineValues) {
+    private boolean primaryKeyIsNotEmpty(String[] lineValues) {
         int firstValue = 0;
         return isNotBlank(lineValues[firstValue]);
     }

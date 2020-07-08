@@ -82,7 +82,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw new IllegalArgumentException("File with given name has already exist.");
         } else if(!validator.isCsv(file)) {
             throw new InvalidFileFormatException("and should contain comma-separated data.");
-        } else if (!validator.documentHasValidLines(file, defaultCharset())) {
+        } else if (!validator.fileHasValidLines(file, defaultCharset())) {
             throw new InvalidFileFormatException("Each line in file should have four columns and also first line column should not be empty.");
         } else if (!validator.lastLineIsEmpty(file, defaultCharset())) {
             throw new InvalidFileFormatException("File last line should be empty.");
