@@ -19,23 +19,23 @@ During running the application, database will be created in root directory with 
     * Upload selected with "Upload"
     * If file is valid you should see it bellow
     
-![Alt text](../src/main/resources/photos/Screen Shot 2020-07-09 at 1.36.15 AM.png?raw=true "Main user page")
+![Alt text](Screen Shot 2020-07-09 at 1.36.15 AM.png "Main user page")
 
 * Search files:
     * From main user page any file link and you will be redirected to a file content
     * Using a search box provide an item primary key, which you want to find
     * From this page you also have ability to go back to the main page
     
-![Alt text](../src/main/resources/photos/Screen Shot 2020-07-09 at 1.40.40 AM.png?raw=true "Searching user page")
+![Alt text](Screen Shot 2020-07-09 at 1.40.40 AM.png "Searching user page")
     
 ## Admin:
 * Main page - All uploaded files:
     * Select file, which you want to open and you will be redirected to a file content 
     
-![Alt text](../src/main/resources/photos/Screen Shot 2020-07-09 at 1.46.27 AM.png?raw=true "Main admin page")
+![Alt text](Screen Shot 2020-07-09 at 1.46.27 AM.png "Main admin page")
 
 * Deleting item from file by primary key:
     * Using a search box to provide an item primary key, which you want to delete
     * From this page you also have ability to go back to the main page
     
-![Alt text](../src/main/resources/photos/Screen Shot 2020-07-09 at 1.51.22 AM.png?raw=true "Main admin page")
+![Alt text](Screen Shot 2020-07-09 at 1.51.22 AM.png "Main admin page")
