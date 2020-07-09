@@ -11,17 +11,17 @@
     
 During running the application, database will be created in root directory with two tables inside
     
-## Functionality of application
+## Application functionalities
 
 ### User:
 * Main page - Upload files:
-    * Select file with "Browser" button
-    * Upload selected with "Upload"
+    * Select a file with "Browser" button
+    * Upload the selected file with "Upload"
     * If file is valid you should see it bellow
     
-* Search file item by primary key:
-    * From main user page any file link and you will be redirected to a file content
-    * Using a search box provide an item primary key, which you want to find
+* Search a file item by primary key:
+    * From main user page select any file link and you will be redirected to a file content
+    * Using a search box, provide an item primary key, which you want to find
     * From this page you also have ability to go back to the main page
         
 ## Admin:
@@ -29,6 +29,6 @@ During running the application, database will be created in root directory with 
     * Select file, which you want to open and you will be redirected to a file content 
     
 * Delete item from file by primary key:
-    * Using a search box to provide an item primary key, which you want to delete
+    * Using a search box, provide an item primary key, which you want to delete
     * From this page you also have ability to go back to the main page
     
